@@ -1,8 +1,10 @@
 from urllib.parse import urlencode
 import requests
 import json
+import tssetup
+from pprint import pprint
 
-api_key = ""
+api_key = tssetup.getKey()
 
 base_url = "https://api.transport.nsw.gov.au/v1/tp/"
 query_type = "trip?"
@@ -38,7 +40,22 @@ response = requests.get(urlsend, headers=headers)
 #decode response and convert to JSON format
 respdict = json.loads(response.content.decode('utf-8'))
 
+
 #simple example to look at data
-for x in respdict["journeys"]:
-    for y in x:
-        print(str(y) + " :: " + str(x[y]))
+
+for x in range(len(respdict["journeys"])):
+    print("*********  TRIP " + str(x+1) + "  *********")
+
+    for y in range(len(respdict["journeys"][x]["legs"])):
+
+        print("LEG " + str(y+1) + "")
+        print("Duration " + str(respdict["journeys"][x]["legs"][y]["duration"]/60) + " mins", end="\n")
+
+        print(respdict["journeys"][x]["legs"][y]["origin"]["departureTimeEstimated"], end="\t")
+        print(respdict["journeys"][x]["legs"][y]["origin"]["name"], end="\n")
+        print(respdict["journeys"][x]["legs"][y]["destination"]["arrivalTimeEstimated"], end="\t")
+        print(respdict["journeys"][x]["legs"][y]["destination"]["name"], end="\n")
+        print("\t\t")
+
+
+

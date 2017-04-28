@@ -1,8 +1,9 @@
 from urllib.parse import urlencode
 import requests
 import json
+import tssetup
 
-api_key = ""
+api_key = tssetup.getKey()
 
 base_url = "https://api.transport.nsw.gov.au/v1/tp/"
 query_type = "stop_finder?"
